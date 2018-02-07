@@ -1,38 +1,109 @@
-\documentclass{article}
-\usepackage{datetime}
-\usepackage[utf8]{inputenc}
+% This is the main file for the template for the coursework during
+% PhD studies at the University of Zagreb, Faculty of Electrical Engineering
+% and Computing in Zagreb, Croatia
+% Initial version: February 2018
 
-\title{Naziv predmeta}
-\author{AntiCodeOn}
-%\today
-\titlehead{Naziv seminara}
-\publishers{Fakultet elektrotehnike i računarstva, Zagreb}
+% Author: Marijo Simunovic 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SETTINGS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[12pt,oneside, a4paper]{article}
+\usepackage[pdftex]{graphicx}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel} % requires texlive-lang-european package
+
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{lmodern} % allows arbitrary font size
+\linespread{1.5}
+
+\usepackage[square, numbers, sort]{natbib} 
+% change the name of Bibliography heading into "Literatura"
+\addto\captionscroatian{%
+  \renewcommand{\bibname}{Literatura}
+}
+%\usepackage{titlesec} %chapter name manipulation
+%% remove chapter name and number
+%\titleformat{\chapter}[display]
+%   {\normalfont\bfseries}{}{0pt}{\Huge}
+%
 
 \begin{document}
 
-\maketitle
+%%%%%%%%%%%%%%% PRVA UNUTARNJA STRANICA / FIRST INNER PAGE %%%%%%%%%%%%%%%%
+\begin{titlepage}
+  \fontsize{16pt}{20pt}\selectfont
+  \fontfamily{phv}\fontseries{mc}\selectfont
+  \newgeometry{left=3cm,right=3cm,top=3cm,bottom=2.5cm}
+  \setlength{\intextsep}{0pt plus 0pt minus 0pt}
 
-\frontmatter
+  \begin{center}
+    \begin{figure}[ht!]
+      \begin{center}
+        \includegraphics[height=4.1184cm, width=5.94cm]{logo_unizg2}
+      \end{center}
+    \end{figure}		
+    \vspace{0cm}
+    {FAKULTET ELEKTROTEHNIKE I RAČUNARSTVA} \\
+    \vspace{3cm}
+    Marijo Šimunović \\
+    \vspace{2cm}
+    {\fontsize{22pt}{22pt}\selectfont\textbf{NASLOV RADA}} \\
+    \vspace{2cm}    
+    SEMINARSKI RAD \\
+    \vspace{5cm}    % adjust this spacing if necessary
+    \vfill{Zagreb, 2018.}
+  \end{center}
+  \restoregeometry
+\end{titlepage}
+
 \tableofcontents
+\clearpage
 \listoffigures
+\clearpage
 \listoftables
+\clearpage
 
-\chapter{Abstrakt}
+\section{Abstrakt}
 
 Ako treba sazetak
 
-\mainmatter
-
+\clearpage
 \include{intro}
 
+\clearpage
 \include{ch1}
 
+\clearpage
 \include{ch2}
 
+\clearpage
+\include{conc}
 
-\include{concl}
+\clearpage
 
-\backmatter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAPHY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bibliography style file is modified IEEEtran.bst file,
+% changed to suit FER's literature style
+\addcontentsline{toc}{chapter}{Literatura}
+\bibliographystyle{IEEEtranFER} 
+\bibliography{eg_biblio}
 
-% The bibliografija ovdje
+%%%%%%%%%%%%%%%%%%%%%%%%%%% NOMENCLATURE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% notation and list of symbols if needed
+%\printnomenclature
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INDEX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% optional index
+%\printindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% insert optional list of figures
+%\listoffigures
+%\cleardoublepage % start new page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% insert optional list of tables
+%\listoftables
+%\cleardoublepage % start new page
 \end{document}
+
