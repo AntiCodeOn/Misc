@@ -1,2 +1,36 @@
-\section{Naslov poglavlja}
+\section{Opis razvojnog okruženja dubinsku analizu}
 \label{ch:ch2}
+
+\subsection{Skup podataka za dubinsku analizu}
+
+Skup podataka nad kojim je napravljena dubinska analiza potječe iz banke genoma
+(Genbank 61.1) i može se preuzeti sa repozitorija za strojno učenje UCL\footnote
+{https://archive.ics.uci.edu/ml/datasets/Molecular+Biology+(Splice-junction+Gene+Sequences)}
+u komprimiranoj datoteci. Skup sadrži 3190 instanci sa 63 atributa.
+Prvi atribut u tablici je klasa. Podaci pripadaju jednoj od tri kategorije:
+\begin{itemize}
+   \item "IE" - slijed u genomu koji se nalazi na granici intron egzon
+   \item "EI" - slijed u genomu koji se nalazi na granici egzon intron
+   \item "N" - slijed u genomu za koji je poznato da ne sadrži granicu između egzona i introna
+\end{itemize}
+Drugi atribut je identifikator instance.
+Preostali atributi su zapravo sekvenca šezdeset slova koje označavaju nukleotide
+ciljanog mjesta na genomu. Prvih trideset se nalazi ispred, a drugih trideset iza
+lokacije za koju pokušavamo odrediti pripada li klasi IE, klasi EI ili se ne nalazi
+na granici kodirajućih i nekodirajućih dijelova RNK transkripta. Nukleotidi su
+označeni na način prikazan tablicom.
+
+
+
+
+
+ning 60 fields are the sequence, starting at position -30 and ending at position +30. Each of these fields is almost always filled by one of {a, g, t, c}. Other characters indicate ambiguity among the standard characters according to the following table: 
+
+D: A ili G ili T 
+N: A ili G ili C ili T 
+S: C ili G
+R: A ili G
+
+(Opis tablice) Oznake nukleotida u skupu podataka za dubinsku analizu. A, G, C i T se koriste ako se na toj lokaciji pojavljuje isključivo jedna
+od četiri baze. Ukoliko se na istom indeksu u sekvenci pojavljuju različite baze, uz sve ostale pozicije imaju iste nukleotide koristimo oznake
+D, N, S i R.
