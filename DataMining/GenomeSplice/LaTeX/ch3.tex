@@ -10,6 +10,26 @@ Računalni znanstvenik John Ross Quinlan dao je značajan doprinos razvoju algor
 
 \subsection{C4.5 algoritam}
 
+C4.5 je nasljednik algoritma ID3. Kao i prethodni, C4.5 generira klasifikator u obliku stabla odlučivanja, ali može 
+kreirati i klasifikator u razumljivijem formatu, u obliku skupa pravila. Pretpostavimo da postoji skup \textit{S} 
+slučajeva. C4.5 konstruira stablo na sljedeći način:
+\begin{itemize}
+   \item Ako svi slučajevi u \textit{S} pripadaju istoj klasi ili je skup mal, stablo je samo čvor s oznakom najčešće klase u skupu \textit{S}
+   \item Inače, odabrati test na jednom atributu s dva ili više ishoda i postaviti ovaj test u korijen stabla s granom za svaki ishod. Podijeliti skup \textit{S} na podskupove \textit{S1}, \textit{S2}, ... ovisno o ishodu svakog test te nastaviti s procedurom rekurzivno za svaki podskup.
+\end{itemize}
+
+Ova definicija je poprilično općenita jer bi mogli odabrati mnogo različitih testova. C4.5 koristi dvije heuristike za rangiranje testova
+\begin{itemize}
+   \item \textit{Informacijska vrijednost\footnote{eng. Information Gain} IG}  - minimizira ukpunu entropiju podskupova i
+   \item \textit{Omjer dobiti\footnote{eng. Gain Ratio} GR} - dijeli IG sa informacijom iz ishoda teksta.
+\end{itemize}
+
+Dozvoljeni su i numerički i nominalni atributi. Numberički atributi u pravilu koriste testove s pragovima, te ishodi
+ovise o tome jesu li vrijednosti atributa veće ili manje (ili jednake) od praga. Kod atributa s diskretnim vrijednostima
+u pravilu testovi imaju jednak broj ishoda kao i broj mogućih vrijednosti tog atributa, ali je moguće i grupiranje 
+vrijednosti kako bi se smanjio broj ishoda testa, a samim time i složenost konstruiranog stabla.
+
+Inicijalno konstruirano stablo je podložno pretreniranju (eng. \textit{overfitting}) zbog čega se koristi algoritam podrezivanja stabla. Podrezivanje se odvija od listova prema korijenu. Računa se pesimistična procjena učestalosti pogrešak korištenjem binomne razdiobe za slučaj kada je registrirano E događaja, koji ne pripadaju najčešćoj klasi, u N pokušaja, s korisnički definiranim intervalom pouzdanosti. Za podstablo se sumira procjena pogreške svih grana i uspoređuje sa greškom u slučaju da se cijelo podstablo zamjeni čvorom. Ukoliko potonja greška nije veća stablo se podrezuje. Također, moguće je zamjenjivanje podstabla samo jednom njegovom granom ukoliko to ne povećava pogreške\cite{Wu01}.
 
 Two factors are attributed
 to this inferior accuracy: the single coverage constraint and the fragmentation problem
