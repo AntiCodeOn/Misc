@@ -73,8 +73,7 @@ ACACAGGGCACCCCCTCANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 }. Čak 42 baze označene su s oznakom N. Ako bi svaki N zamijenili s jednom od četiri moguće baze dobili bismo 4\textsuperscript{42} kombinacija. Bez provjere u postojećim bazama podataka ne možemo znati koje su od tih kombinacija uistinu dijelovi donorskih sekcija u genomu. Korištenjem ovih kombinacija značajno bismo utjecali na distribuciju skupa podataka jer većina lokacija u genomima nije ni donorska ni akceptorska sekcija gena. 
 Ovako obrađen skup podatak spremljen je u datoteku \textit{splice\_filtered.csv}
 
-\subsection{Vizualizacija atributa}
-Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno.
+\subsection{Organizacija podataka atributa}
 
 Prije nego krenemo s procesom obrade podataka dijelimo skup na dva dijela: skup za trening i skup za testiranje. Za testiranje izdvajamo 20\% od ukupnog skupa podataka i njih koristimo samo za završnu ocjenu odabranih trening algoritama. Funkcija \textit{test{\_}train{\_}split} iz modula model{\_}selection. Želimo osigurati da su podaci stratificirani, odnosno da su razdiobe podataka jednake u ishodišnom skupu podataka kao i generiranim skupovima. 
 \begin{center}
@@ -111,6 +110,36 @@ Metoda \textit{test{\_}train{\_}split} ima argument \textit{stratify} kojem pred
 \subsection{Odabir atributa}
 Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti sve dostupne atribute skupa podataka. U odabiru najboljih atributa za model primjenjuju se različite tehnike koje se u grubo mogu svrstati u tri kategorije. Metode \textbf{filtriranja} koriste najčešće različite statističke testove kako bi se odredila korelacija\footnote{termin korelacija ovdje koristimo u širem smislu, ne isključivo u statističkom kontekstu} između atributa i izlazne varijable (klase). Druga kategorija, metode\textbf{omotača}\footnote{eng. \textit{wrapper methods}} koriste se podskup atributa nad kojim treniraju model. Na osnovu zaključaka iz ovog modela, dodaju se ili oduzimaju određeni atributi - problem odabira atributa svodi se na problem pretraživanja. \textbf{Ugradbene} metode\footnote{eng. \textit{embedded methods}} kombiniraju kvalitete filterskih i metoda omotavanja korištenjem algoritama koji imaju vlastite ugrađene metode selekcije atributa.
 
-Algoritam stabla odlučivanja ima prirodno ugrađen mehanizam za odabir atributa. Najprije se u postupku konstrukcije rangiraju atributi, a zatim se u postupku podrezivanja smanjuje ukupan broj atributa. Neki računalni znanstvenici\cite{Grabczewski01} zbog ovih karakteristika koriste stablo odlučivanja kao algoritam za odabir atributa koji će se zatim koristiti u drugom modelu (klasifikacija iili regresijski postupak). Budući da je procedura izgradnje stabla odlučivanja poprilično brza onda je moguće i koristiti sve atribute. Međutim, kako bi provjerili ovu hipotezu, kreirat ćemo i dodatne varijante stabla odlučivanja, nad atributima koje odaberemo pomoću Hi-Kvadrat testa.
+Algoritam stabla odlučivanja ima prirodno ugrađen mehanizam za odabir atributa. Najprije se u postupku konstrukcije rangiraju atributi, a zatim se u postupku podrezivanja smanjuje ukupan broj atributa. Neki računalni znanstvenici\cite{Grabczewski01} zbog ovih karakteristika koriste stablo odlučivanja kao algoritam za odabir atributa koji će se zatim koristiti u drugom modelu (klasifikacija iili regresijski postupak). Budući da je procedura izgradnje stabla odlučivanja poprilično brza onda je moguće i koristiti sve atribute. Međutim, kako bi provjerili ovu hipotezu, kreirat ćemo i dodatne varijante stabla odlučivanja, nad podskupom atributa.
+
+Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (Slika\ref{class_dna_x}).
+\begin{center}
+   \begin{figure}[ht!]
+   \begin{subfigure}{.5\textwidth}
+         \includegraphics[height=5cm, width=7cm]{class_dna_2}
+         \caption{dna{\_}2}
+         \label{fig:class_dna_2}
+   \end{subfigure}
+   \begin{subfigure}{.5\textwidth}
+         \includegraphics[height=5cm, width=7cm]{class_dna_29}
+         \caption{dna{\_}29}
+         \label{fig:class_dna_29}
+   \end{subfigure}
+   \begin{subfigure}{.5\textwidth}
+         \includegraphics[height=5cm, width=7cm]{class_dna_33}
+         \caption{dna{\_}33}
+         \label{fig:class_dna_33}
+   \end{subfigure}
+   \begin{subfigure}{.5\textwidth}
+         \includegraphics[height=5cm, width=7cm]{class_dna_54}
+         \caption{dna{\_}54}
+         \label{fig:class_dna_54}
+   \end{subfigure}
+   \caption[Dijagram rasipanja vrijednosti atributa po klasama]
+   {\textbf{Frekvencija vrijednosti atributa po klasama}\textit{Vidimo da je distribucija vrijednosti atributa uniformna na udaljenijim indeksima \ref{class_dna_2} i\ref{class_dna_54}. Za indekse neposredno prije granice \ref{class_dna_29} i poslije granice \ref{class_dna_33} donorsko-akceptorskog područja vidimo da postoje izražena koncentracija određenih vrijednosti baza}}
+    \label{fig:class_dna_x}
+   \end{figure}
+\end{center}
+Ovakva razdioba upućuje na zaključak da nisu svi atributi jednako značajni. Zbog toga provodimo postupak selekcije atributa korištenjem prikladnog statističkog testa. Budući da smo već utvrdili da postoji određena frekvencijska relacija vrijednosti atributa i klasa kao logičan postupak nameće se tzv. Hi-Kvadrat test.
 \subsubsection{Hi-Kvadrat test}
 Hi-Kvadrat je test nezavisnosti koji se koristi kako bi se odredilo postoji li značajna veza između dvije nominalne (kategorične) varijable. Frekvencija svake vrijednosti jedne nominalne varijable uspoređuju se sa kategorijama druge nominalne varijable. Nul-hipoteza 
