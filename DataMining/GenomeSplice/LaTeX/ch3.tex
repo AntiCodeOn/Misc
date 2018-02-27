@@ -79,7 +79,7 @@ Prije nego krenemo s procesom obrade podataka dijelimo skup na dva dijela: skup 
 \begin{center}
    \begin{figure}[ht!]
       \begin{center}
-         \includegraphics[height=5cm, width=8cm]{dataset_class_dist}
+         \includegraphics[height=6cm, width=9cm]{dataset_class_dist}
          \caption[Distribucija instanci u skupu podataka]
          {\textbf{Distribucija instanci u skupu podataka po klasama.}\textit{Prevladava klasa N, odnosno nizovi koji ne pripadaju ni akceptorskim ni donorskim nizovima nukleotida. U pojedinačnom genomu ova razlika je još izraženija\cite{Brown01} i kada bismo htjeli koristiti ovaj algoritam na drugim skupovima podataka morali bismo prilagoditi broj instanci odgovarajućim omjerima.}}
          \label{fig:dist_orig}
@@ -92,12 +92,12 @@ Metoda \textit{test{\_}train{\_}split} ima argument \textit{stratify} kojem pred
 \begin{center}
    \begin{figure}[ht!]
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{testset_class_dist}
+         \includegraphics[height=5cm, width=8cm]{testset_class_dist}
          \caption{Trening}
          \label{fig:dist_train}
    \end{subfigure}
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{trainset_class_dist}
+         \includegraphics[height=5cm, width=8cm]{trainset_class_dist}
          \caption{Test}
          \label{fig:dist_test}
    \end{subfigure}
@@ -112,34 +112,89 @@ Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti 
 
 Algoritam stabla odlučivanja ima prirodno ugrađen mehanizam za odabir atributa. Najprije se u postupku konstrukcije rangiraju atributi, a zatim se u postupku podrezivanja smanjuje ukupan broj atributa. Neki računalni znanstvenici\cite{Grabczewski01} zbog ovih karakteristika koriste stablo odlučivanja kao algoritam za odabir atributa koji će se zatim koristiti u drugom modelu (klasifikacija iili regresijski postupak). Budući da je procedura izgradnje stabla odlučivanja poprilično brza onda je moguće i koristiti sve atribute. Međutim, kako bi provjerili ovu hipotezu, kreirat ćemo i dodatne varijante stabla odlučivanja, nad podskupom atributa.
 
-Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (Slika\ref{class_dna_x}).
+Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (Slika\ref{fig:class_dna_x}).
 \begin{center}
    \begin{figure}[ht!]
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{class_dna_2}
+         \includegraphics[height=5cm, width=8cm]{class_dna_2}
          \caption{dna{\_}2}
          \label{fig:class_dna_2}
    \end{subfigure}
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{class_dna_29}
+         \includegraphics[height=5cm, width=8cm]{class_dna_29}
          \caption{dna{\_}29}
          \label{fig:class_dna_29}
    \end{subfigure}
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{class_dna_33}
+         \includegraphics[height=5cm, width=8cm]{class_dna_33}
          \caption{dna{\_}33}
          \label{fig:class_dna_33}
    \end{subfigure}
    \begin{subfigure}{.5\textwidth}
-         \includegraphics[height=5cm, width=7cm]{class_dna_54}
+         \includegraphics[height=5cm, width=8cm]{class_dna_54}
          \caption{dna{\_}54}
          \label{fig:class_dna_54}
    \end{subfigure}
    \caption[Dijagram rasipanja vrijednosti atributa po klasama]
-   {\textbf{Frekvencija vrijednosti atributa po klasama}\textit{Vidimo da je distribucija vrijednosti atributa uniformna na udaljenijim indeksima \ref{class_dna_2} i\ref{class_dna_54}. Za indekse neposredno prije granice \ref{class_dna_29} i poslije granice \ref{class_dna_33} donorsko-akceptorskog područja vidimo da postoje izražena koncentracija određenih vrijednosti baza}}
+   {\textbf{Frekvencija vrijednosti atributa po klasama.}\textit{ Distribucija vrijednosti atributa uniformna je na indeksima udaljenima od sredine nukleotidnog niza (\ref{fig:class_dna_2} i \ref{fig:class_dna_54}). Za indekse neposredno prije granice (\ref{fig:class_dna_29}) i poslije granice (\ref{fig:class_dna_33}) donorsko-akceptorskog područja vidimo da postoje izražena koncentracija određenih vrijednosti baza.}}
     \label{fig:class_dna_x}
    \end{figure}
 \end{center}
-Ovakva razdioba upućuje na zaključak da nisu svi atributi jednako značajni. Zbog toga provodimo postupak selekcije atributa korištenjem prikladnog statističkog testa. Budući da smo već utvrdili da postoji određena frekvencijska relacija vrijednosti atributa i klasa kao logičan postupak nameće se tzv. Hi-Kvadrat test.
+Ovakva razdioba upućuje na zaključak da nisu svi atributi jednako značajni. Zbog toga provodimo postupak selekcije atributa korištenjem prikladnog statističkog testa. Budući da smo već utvrdili da postoji određena frekvencijska relacija vrijednosti atributa i klasa kao logičan postupak nameće se tzv. Hi-kvadrat test.
 \subsubsection{Hi-Kvadrat test}
-Hi-Kvadrat je test nezavisnosti koji se koristi kako bi se odredilo postoji li značajna veza između dvije nominalne (kategorične) varijable. Frekvencija svake vrijednosti jedne nominalne varijable uspoređuju se sa kategorijama druge nominalne varijable. Nul-hipoteza 
+Hi-Kvadrat je test nezavisnosti koji se koristi kako bi se odredilo postoji li značajna veza između dvije nominalne (kategorične) varijable. Frekvencija svake vrijednosti jedne nominalne varijable (atributa) uspoređuje se sa kategorijama druge nominalne varijable (klase). Računaju se očekivane vrijednosti frekvencija vrijednosti atributa i uspoređuju sa stvarnim vrijednostima iz skupa podataka. Podaci se prikazuju u kontigencijskim tablicama. Primjer je dan tablicom \ref{tab:contig}.
+\begin{center}
+    \begin{table}[!ht]
+    \caption[Kontigencijska tablica]{
+    \label{tab:contig}
+    \textbf{Primjer kontigencijske tablice.} \textit{Stupci su kategorije jedne varijable (atributa), a redovi kategorije druge varijable (klase). Krajnji redak i stupac predstavljaju sumu vrijednosti iznad, odnosno lijevo. Na osnovu sumarnih vrijednosti računaju se očekivane vrijednosti kategorija.}}
+   \centering
+   \begin{tabular}{||c | c | c | c ||}
+   \hline
+     & Atr1 & ... & AtrN \\ [0.5ex]
+   \hline\hline
+   Klasa1 & $O_{11}$ & ... & $O_{1N}$  \\
+   ..     & ...    & $O_{mn}$ & ...  \\
+   KlasaM & $O_{M1}$ & ... & $O_{MN}$  \\ [1ex]
+    \hline
+    \end{tabular}
+    \end{table}
+\end{center}
+Najprije se računaju očekivane vrijednosti na osnovu tablice kontigencije korištenjem sljedeće formule
+
+\begin{equation}\label{eq:chiexpect}
+E_{ij} = \frac{\sum_{k=1}^{N}O_{ik}\sum_{k=1}^{M}O_{kj}}{N}
+\end{equation}
+
+gdje je 
+
+\begin{itemize}
+    \item $\sum_{k=1}^{N}O_{ik}$ - suma i-tog retka u kontigencijskoj tablici
+    \item $\sum_{k=1}^{M}O_{kj}$ - suma j-tog stupca u kontigencijskoj tablici
+    \item N - ukupan broj instanci u skupu podataka.
+\end{itemize}
+
+Nakon izračuna očekivanih vrijednosti, možemo se pristupiti izračunu vrijednosti Hi-kvadrat testa neovisnosti na slijedeći način:
+
+\begin{equation}
+    \chi^2 = \sum_{i=1}^{M}\sum_{j=1}^{N}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}
+\end{equation}
+
+Hi-kvadrat testira određenu hipotezu čiju istinitost pretpostavljamo. Nulta hipoteza pretpostavlja da ne postoji statistički značajna veze između dvije varijable. Alternative hipoteza, pojednostavljeno, pretpostavlja suprotno od nulte hipoteze.
+
+Tablica \ref{tab:chi2} prikazuje primjer kontigencijske tablice za dva atributa, dna{\_2} i dna{\_}29, iz podataka nad kojima vršimo analizu. Odgovarajuća nulta i alternativna hipoteza mogu biti:
+\begin{itemize}
+    \item $H_0$: Nukleotid na n-tom indeksu nije povezan s klasom nukleotidnog niza, i 
+    \item $H_1$: Nukleotid na n-tom indeksu povezan je s klasom nukleotidnog niza.
+\end{itemize}
+
+\begin{table}
+\centering
+    \caption[Sumarni podaci vrijednosti atributa za hi-kvadrat test]{\textbf{Sumarni podaci vrijednosti atributa za hi-kvadrat test.} \textit{Tablični pregled vrijednosti koje se koriste u hi-kvadrat testu za odabir atributa. Za atribut na indeksu 2 vidimo da se broj nukleotidnih baza poklapa sa distribucijom klasa u skupu. Za atribut na indeksu 29 vidimo da vrijednosti značajno odstupaju od razdiobe klasa.}}
+    \label{tab:chi2}
+    \csvautotabular{"data/chi2table.csv"}
+\end{table}
+Koristeći \eqref{eq:chiexpect} možemo izračunati da očekivana vrijednost kategorije T za atribut dna{\_}2 u slučaju klase IE iznosi $E_{IE2T} = 756*765/3174 = 182$ i razlika u odnosnu na stvarnu vrijednost je samo 14. U slučaju za atribut dna{\_}29 očekivana vrijednost na istoj poziciji u tablici iznosi $E_{IE29T} = 514*765/3174 = 124$, odnosno razlika je čak 123.
+
+\subsubsection*{Weka chiSquaredAttributeEval}
+Kako ne bismo morali ručno raditi izračun Hi-kvadrat vrijednosti cijelog seta koristimo modul \textit{chiSquaredAttributeEval} za selekciju atributa unutar Weka programskog alata. Ovaj paket je dodatni i treba ga naknadno instalirati korištenjem izbornika \textit{Tools->Package Manager} u početnom pregledniku programa.
