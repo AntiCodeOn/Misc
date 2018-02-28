@@ -14,4 +14,12 @@ Za procjenu uspješnosti klasifikacije koriste se različite mjere. Za razumijev
 \end{itemize}
 
 
-Tablica prikazuje uspješnost algoritama korištenjem gore opisanih mjera.
+Tablica \ref{tab:mjera} prikazuje uspješnost algoritama korištenjem gore opisanih mjera.
+
+\begin{table}[!ht]
+    \centering
+    \caption[Prikaz rezultata uspješnosti modela]{Prikaz rezultata uspješnosti modela}    
+    \label{tab:mjera}
+    \csvautotabular{"data/scores.csv"}
+
+\end{table}
