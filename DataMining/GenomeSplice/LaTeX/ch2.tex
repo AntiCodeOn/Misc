@@ -3,11 +3,11 @@
 
 \subsection{Programski alati za dubinsku analizu}
 Za obradu i preprocesiranje skupa podataka korišten je programski jezik \textit{Python} (verzija 3.5)
-u kombinaciji sa bibliotekama \textit{pandas}, \textit{sklearn}. Skripta za obradu podataka napisana 
+u kombinaciji sa bibliotekama \textit{pandas}, \textit{sklearn} te \textit{matplotlib} i \textit{seaborn} za grafički prikaz rezultata. Dubinska analiza provedena je korištenjem programa Weka. Skripta za obradu podataka napisana 
 je u razvojnom okruženju \textit{Jupyter Notebook}
 
 \subsubsection*{pandas}
-\textcolor{red}{TODO: provjeriti je li referenca odgovara citiranom tekstu.}
+\textcolor{red}{TODO: dodaati reference za weka i matplotlib, seaborn.}
 \textit{pandas} je biblioteka otvorenog koda koja implementira brze i fleksibilne strukture podataka kako bi se korisniku omogućilo što lakše i intuitivnije upravljanje podacima\cite{McKinney01}. Ova biblioteka omogućuje korištenje različitih tipova podataka
 \begin{itemize}
    \item Tabularni podaci sa stupcima heterogenog tipa (kao u SQL ili Excel tablicama)
@@ -33,9 +33,7 @@ Prvi atribut u tablici je klasa. Podaci pripadaju jednoj od tri kategorije:
 \end{itemize}
 Drugi atribut je tekstualni identifikator instance.
 Preostali atributi su zapravo sekvenca šezdeset slova koje označavaju nukleotide
-ciljanog mjesta na genomu. Prvih trideset slova koja se nalazi ispred lokacije koju testiramo
-označeni su negativnim indeksima {-30, -29, ..., -1}. Drugih trideset nukleotida označavamo
-pozitivnim indeksima {1, 2, ..., 30}.
+ciljanog mjesta na genomu. U ovom radu se na pozicije pojedinačnih nukleotidnih baza (slova) referiramo pozitivnim indeksima {1, 2, ..., 60}.
 Nukleotidi u skupu podataka su označeni na način prikazan Tablicom \ref{tab:oznake}.
 
 \begin{table}[!ht]

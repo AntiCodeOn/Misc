@@ -67,15 +67,18 @@ Stupac \textit{id} je jedinstveni identifikator vrste za svaki red u tablici i z
    \end{tabular}
    \label{tab:udjeli}
 \end{table}
-Tablica \ref{tab:udjeli} pokazuje razdiobu jedinstvenih oznaka nukleotida. Vidimo da vrlo mali udio ima oznaku D, N, S ili R (ukupno 15 redaka). Zbog toga možemo izbaciti ove retke bez značajnog smanjenja skupa podataka za dubinsku analizu. S druge strane, na ovaj način sprječavamo da algoritam da previše važnosti podacima koji spadaju u ovu marginalnu skupinu (eng. \textit{outliers}). 
+Razdiobe jedinstvenih oznaka nukleotida prikazane su u tablici \ref{tab:udjeli}. Vidimo da vrlo mali udio atributa ima oznaku D, N, S ili R (ukupno 15 redaka). Zbog toga možemo izbaciti ove retke bez značajnog smanjenja skupa podataka za dubinsku analizu. S druge strane, na ovaj način sprječavamo da algoritam da previše važnosti podacima koji spadaju u ovu marginalnu skupinu (eng. \textit{outliers}). 
 Jedna od instanci iz klase EI\footnote{HUMALPI1-DONOR} ima nukleotidni niz\textit{ 
 ACACAGGGCACCCCCTCANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-}. Čak 42 baze označene su s oznakom N. Ako bi svaki N zamijenili s jednom od četiri moguće baze dobili bismo 4\textsuperscript{42} kombinacija. Bez provjere u postojećim bazama podataka ne možemo znati koje su od tih kombinacija uistinu dijelovi donorskih sekcija u genomu. Korištenjem ovih kombinacija značajno bismo utjecali na distribuciju skupa podataka jer većina lokacija u genomima nije ni donorska ni akceptorska sekcija gena. 
-Ovako obrađen skup podatak spremljen je u datoteku \textit{splice\_filtered.csv}
+}. Čak 42 baze označene su s oznakom N. Ako bi svaki N zamijenili s jednom od četiri moguće baze dobili bismo 4\textsuperscript{42} kombinacija. Bez provjere u postojećim bazama podataka ne možemo znati koje su od tih kombinacija uistinu dijelovi donorskih sekcija u genomu.
+
+Korištenjem ovih kombinacija značajno bismo utjecali na distribuciju skupa podataka jer većina lokacija u genomima nije ni donorska ni akceptorska sekcija gena. Primjerice, u ljudskom genomu oko 27\% genoma čine sekvence koje se prepisuju u RNK (od toga je samo oko 1.5\% kodirajućih sekvenci)\cite{Berg01}.
+
+Ovako obrađen skup podataka spremljen je u datoteku \textit{splice\_filtered.csv} za daljnju analizu.
 
 \subsection{Organizacija podataka atributa}
 
-Prije nego krenemo s procesom obrade podataka dijelimo skup na dva dijela: skup za trening i skup za testiranje. Za testiranje izdvajamo 20\% od ukupnog skupa podataka i njih koristimo samo za završnu ocjenu odabranih trening algoritama. Funkcija \textit{test{\_}train{\_}split} iz modula model{\_}selection. Želimo osigurati da su podaci stratificirani, odnosno da su razdiobe podataka jednake u ishodišnom skupu podataka kao i generiranim skupovima. 
+Prije nego krenemo s procesom obrade skup podataka dijelimo na dva dijela: skup za trening i skup za testiranje. Za testiranje izdvajamo 20\% od ukupnog skupa podataka i njih koristimo samo za završnu ocjenu odabranih trening algoritama. Želimo osigurati da su podaci stratificirani, odnosno da su razdiobe podataka jednake u ishodišnom skupu podataka kao i generiranim skupovima. 
 \begin{center}
    \begin{figure}[ht!]
       \begin{center}
@@ -87,7 +90,7 @@ Prije nego krenemo s procesom obrade podataka dijelimo skup na dva dijela: skup 
    \end{figure}
 \end{center}
 
-Metoda \textit{test{\_}train{\_}split} ima argument \textit{stratify} kojem predajemo stupac s klasama. Slike \ref{fig:dist_orig} i \ref{fig:dist_train_test} potvrđuju da su podaci pravilno podijeljeni.
+Metoda \textit{test{\_}train{\_}split} iz paketa \textit{sklearn} ima argument \textit{stratify} kojem predajemo stupac s klasama. Slike \ref{fig:dist_orig} i \ref{fig:dist_train_test} potvrđuju da su podaci pravilno podijeljeni.
 
 \begin{center}
    \begin{figure}[ht!]
@@ -108,11 +111,11 @@ Metoda \textit{test{\_}train{\_}split} ima argument \textit{stratify} kojem pred
 \end{center}
 
 \subsection{Odabir atributa}
-Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti sve dostupne atribute skupa podataka. U odabiru najboljih atributa za model primjenjuju se različite tehnike koje se u grubo mogu svrstati u tri kategorije. Metode \textbf{filtriranja} koriste najčešće različite statističke testove kako bi se odredila korelacija\footnote{termin korelacija ovdje koristimo u širem smislu, ne isključivo u statističkom kontekstu} između atributa i izlazne varijable (klase). Druga kategorija, metode\textbf{omotača}\footnote{eng. \textit{wrapper methods}} koriste se podskup atributa nad kojim treniraju model. Na osnovu zaključaka iz ovog modela, dodaju se ili oduzimaju određeni atributi - problem odabira atributa svodi se na problem pretraživanja. \textbf{Ugradbene} metode\footnote{eng. \textit{embedded methods}} kombiniraju kvalitete filterskih i metoda omotavanja korištenjem algoritama koji imaju vlastite ugrađene metode selekcije atributa.
+Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti sve dostupne atribute skupa podataka. U odabiru najboljih atributa za model primjenjuju se različite tehnike koje se u grubo mogu svrstati u tri kategorije. Metode \textbf{filtriranja} koriste najčešće različite statističke testove kako bi se odredila korelacija\footnote{termin korelacija ovdje koristimo u širem smislu, ne isključivo u statističkom kontekstu} između atributa i izlazne varijable (klase). Druga kategorija, metode \textbf{omotača}\footnote{eng. \textit{wrapper methods}} koriste podskup atributa nad kojim treniraju model. Na osnovu zaključaka iz ovog modela, dodaju se ili oduzimaju određeni atributi - problem odabira atributa svodi se na problem pretraživanja. \textbf{Ugradbene} metode\footnote{eng. \textit{embedded methods}} kombiniraju kvalitete filterskih i metoda omotavanja korištenjem algoritama koji imaju vlastite ugrađene metode selekcije atributa.
 
 Algoritam stabla odlučivanja ima prirodno ugrađen mehanizam za odabir atributa. Najprije se u postupku konstrukcije rangiraju atributi, a zatim se u postupku podrezivanja smanjuje ukupan broj atributa. Neki računalni znanstvenici\cite{Grabczewski01} zbog ovih karakteristika koriste stablo odlučivanja kao algoritam za odabir atributa koji će se zatim koristiti u drugom modelu (klasifikacija iili regresijski postupak). Budući da je procedura izgradnje stabla odlučivanja poprilično brza onda je moguće i koristiti sve atribute. Međutim, kako bi provjerili ovu hipotezu, kreirat ćemo i dodatne varijante stabla odlučivanja, nad podskupom atributa.
 
-Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (Slika\ref{fig:class_dna_x}).
+Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (slika \ref{fig:class_dna_x}).
 \begin{center}
    \begin{figure}[ht!]
    \begin{subfigure}{.5\textwidth}
