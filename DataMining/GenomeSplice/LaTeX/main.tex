@@ -14,6 +14,7 @@
 \usepackage[bf, font=small]{caption} %image caption settings
 \usepackage[labelfont=small, font=small]{subcaption}
 \usepackage{csvsimple} % requires texlive-latex-extra
+\usepackage[toc,page]{appendix}
 
 \usepackage{amsmath}
 \numberwithin{equation}{section}
@@ -37,6 +38,9 @@
 \addto\captionscroatian{%
   \renewcommand{\bibname}{Literatura}
 }
+\addto\captionscroatian{%
+  \renewcommand{\appendixname}{Dodatak}
+}
 %\usepackage{titlesec} %chapter name manipulation
 %% remove chapter name and number
 %\titleformat{\chapter}[display]
@@ -45,6 +49,24 @@
 
 %narrow underscore
 \renewcommand{\_}{\textscale{.7}{\textunderscore}}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyvrb}
+% redefine \VerbatimInput
+\RecustomVerbatimCommand{\VerbatimInput}{VerbatimInput}%
+{fontsize=\footnotesize,
+%
+frame=lines,  % top and bottom rule only
+framesep=2em, % separation between frame and text
+rulecolor=\color{Gray},
+%
+label=\fbox{\color{Black}data.txt},
+labelposition=topline,
+%
+commandchars=\|\(\), % escape character and argument delimiters for
+                       % commands within the verbatim
+commentchar=*        % comment character
+}
 
 
 \begin{document}
@@ -77,12 +99,13 @@
 \end{titlepage}
 
 \tableofcontents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
 \listoffigures
-\clearpage
+\clearpage % start new page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% insert optional list of tables
 \listoftables
-\clearpage
-
 %\section{Abstrakt}
 %Ako treba sazetak
 
@@ -108,29 +131,17 @@
 \include{conc}
 
 \clearpage
-
+\include{appA}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAPHY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % bibliography style file is modified IEEEtran.bst file,
 % changed to suit FER's literature style
+\clearpage % start new page
 \addcontentsline{toc}{section}{Literatura}
 \bibliographystyle{IEEEtranFER} 
 \bibliography{eg_biblio}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%% NOMENCLATURE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% notation and list of symbols if needed
-%\printnomenclature
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INDEX %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % optional index
 %\printindex
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% insert optional list of figures
-%\listoffigures
-%\cleardoublepage % start new page
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LOT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% insert optional list of tables
-%\listoftables
-%\cleardoublepage % start new page
 \end{document}
-

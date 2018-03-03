@@ -17,11 +17,10 @@ slučajeva. C4.5 konstruira stablo na sljedeći način:
    \item Ako svi slučajevi u \textit{S} pripadaju istoj klasi ili je skup mal, stablo je samo čvor s oznakom najčešće klase u skupu \textit{S}
    \item Inače, odabrati test na jednom atributu s dva ili više ishoda i postaviti ovaj test u korijen stabla s granom za svaki ishod. Podijeliti skup \textit{S} na podskupove \textit{S1}, \textit{S2}, ... ovisno o ishodu svakog test te nastaviti s procedurom rekurzivno za svaki podskup.
 \end{itemize}
-
 Ova definicija je poprilično općenita jer bi mogli odabrati mnogo različitih testova. C4.5 koristi dvije heuristike za rangiranje testova
 \begin{itemize}
-   \item \textit{Informacijska vrijednost\footnote{eng. Information Gain} IG}  - minimizira ukupnu entropiju podskupova i
-   \item \textit{Omjer dobiti\footnote{eng. Gain Ratio} GR} - dijeli IG sa informacijom iz ishoda testa.
+   \item \textit{Informacijska vrijednost IG\footnote{eng. \textit{Information Gain}}}  - minimizira ukupnu entropiju podskupova i
+   \item \textit{Omjer dobiti GR\footnote{eng. \textit{Gain Ratio}}} - dijeli IG sa informacijom iz ishoda testa.
 \end{itemize}
 
 Dozvoljeni su i numerički i nominalni atributi. Numberički atributi u pravilu koriste testove s pragovima, te ishodi
@@ -32,48 +31,32 @@ vrijednosti kako bi se smanjio broj ishoda testa, a samim time i složenost kons
 Inicijalno konstruirano stablo je podložno pretreniranju (eng. \textit{overfitting}) zbog čega se koristi algoritam podrezivanja stabla. Podrezivanje se odvija od listova prema korijenu. Računa se pesimistična procjena učestalosti pogrešak korištenjem binomne razdiobe za slučaj kada je registrirano E događaja, koji ne pripadaju najčešćoj klasi, u N pokušaja, s korisnički definiranim intervalom pouzdanosti. Za podstablo se sumira procjena pogreške svih grana i uspoređuje sa greškom u slučaju da se cijelo podstablo zamjeni čvorom. Ukoliko potonja greška nije veća stablo se podrezuje. Također, moguće je zamjenjivanje podstabla samo jednom njegovom granom ukoliko to ne povećava pogreške\cite{Wu01}.
 
 \subsubsection{Informacijska vrijednost i omjer dobiti}
+Algoritam C4.5 koristi osnovne postulate informacijske teorije u procesu izgradnje stabla. Prema teoriji informacije, informacija sadržana u poruci ovisi o vjerojatnosti te poruke $p$ i može se mjeriti u bitovima kao negativan logaritam te vjerojatnosti \cite{Shannon01}. Pretpostavimo da postoji skup instanci $S$ veličine $|S|$ unutar kojeg svaka od instanca pripada točno jednoj od $J$ klasa gdje ukupan broj instanci klase $j$ u skupu $S$ označavamo sa $|C_{jS}|$. Ako nasumično izaberemo jednu instancu iz skupa vjerojatnost da ona pripada klasi $j\in{1,..,J}$ iznosi\begin{equation}
+p = \frac{|C_jS|}{|S|}.
+\end{equation}
+Očekivana informacija takve poruke u odnosu na pripadnost klasi izražena je sumom svih klasa u proporciji sa njihovim udjelima u skupu $S$. 
 
 \begin{equation}
 info(S) = -\mathlarger{\sum}_{j}\frac{|C_{jS}|}{|S|}\cdot\log_{2}\frac{|C_{jS}|}{|S|}
 \end{equation}
-
+U trening skupu $info(S)$ mjeri prosječnu informaciju potrebnu da bi se identificirala klasa instance iz skupa S. Nakon što smo podijelili skup $S$ u $n$ particija u ovisnosti od ishoda testa $X$ očekivanu informaciju računamo kao težinsku sumu podskupova
 \begin{equation}
 info_{X}(S) = -\mathlarger{\sum}_{i}\frac{|S_{i}|}{|S|}\cdot info(S_{i})
 \end{equation}
-
+Konačno, informacijsku dobit računamo kao
 \begin{equation}
 gain(X) = info(S)-info_{X}(S)
 \end{equation}
-
+U algoritmu ID3 favorizirani su testovi s puno ishoda. Na primjer, u našem testnom skupu atribut \textit{id} je jedinstven za svaku instancu. Korištenjem takvog atributa dobili bismo veliki broj podskupova od kojih svakih sadrži jedan slučaj sa. Budući da bi ovi podskupovi imali samo jednu klasu, $info_{X}S$ bi uvijek bio 0, odnosno iformacijska vrijednost od korištenja ovakvog atributa bi bila maksimalna. Međutim, ovakvo stablo ne bi moglo klasificirati ni jednu novu instancu (jer bi ona imala $id$ koji se nije nalazio u skupu za trening). To je zapravo razlog zašto smo izbacili ovaj atribut u procesu predobrade. C4.5 je popravio ovaj nedostatak korištenjem normalizacije. Izraz
 \begin{equation}
-split info(X) = -\mathlarger{\sum}_{i}\frac{|S_{i}|}{|S|}\cdot\log_{2}\frac{|S_{i}|}{|S|}
+split info(X) = -\mathlarger{\sum}_{i}^{n}\frac{|S_{i}|}{|S|}\cdot\log_{2}\frac{|S_{i}|}{|S|}
 \end{equation}
-
+predstavlja potencijalnu informaciju dobivenu dijeljenjem skupa $S$ u $n$ podskupova. Ova veličina povezana je s informacijskim sadržajem ishoda testa u usporedbi sa informacijom klasifikacije kao što je u slučaju informacijske dobiti.
 \begin{equation}
-GR(X) = info(S)/split info_(X)
+\label{eq:gr}
+GR(X) = info(S)/split info(X)
 \end{equation}
-Two factors are attributed
-to this inferior accuracy: the single coverage constraint and the fragmentation problem
-[14,7,13].
-The single coverage constraint originates from the heuristic nature of the C4.5
-method. The construction of C4.5 trees is a recursive process. The process first selects
-a feature which is most discriminatory with regard to the entire training data. Then
-the process goes to use this feature to split the data into non-overlapping sub-groups
-so that each sub-group contains as many samples of the same class as possible. Then
-the process is applied to each of these sub-groups of the training data, and iteratively
-applied to the resulting sub-groups until all sub-groups contain pure or almost pure class
-of samples.
-Each sub-group of training data corresponds to a rule with which all samples in this
-sub-group satisfy. Because no training data is repeated in these sub-groups, no training
-samples can satisfy more than one rule’s conditions. So, every training sample has one
-and only one rule in the tree to be satisfied. We call this the single coverage constraint
-or mutual exclusivity. Due to this constraint, decision tree methods do not encourage
-G. Dong et al. (Eds.): WAIM 2003, LNCS 2762, pp. 254–265, 2003. Springer-Verlag Berlin Heidelberg 2003
-Using Rules to Analyse Bio-medical Data: A Comparison between C4.5 and PCL 255
-many significant rules to be generated, though there exist lots of significant rules in
-bio-medical data particularly for high-dimensional gene expression profiling data [8,18,
-17,9]. The small number of significant rules can lead to biased predictions.
-The fragmentation problem is that as less and less training data are used to search for
-root nodes of sub-trees (sub-groups), a series of many locally important but globally unimportant
-rules may be generated. These minor rules can in turn mis-guide the resulting
-system, decreasing the accuracy of the trees.
+Omjer dobiti \ref{eq:gr} izračava udio informacije generiran podjelom nastalom korištenjem testa X \cite{Quinlan02}.
+
+\subsubsection{Nedostatci C4.5 algoritma}
+Postoje dva glavna razloga koja utječu na lošije performanse algoritma: ograničenje jednostruke pokrivenosti i fragmentacija. Ograničenje jednostruke pokrivenosti uzrokovano je heurističkom prirodom metode. Konstrukcija C4.5 stabala odvija se tako da se odabire atribut koji je najdiskriminatorniji u cijelom skupu podataka te se na osnovu njega podaci dijele u nepreklapajuće podskupove koji bi trebali imati što više uzoraka iste klase. Svaka podgrupa odgovara jednom pravilu i svaka instanca zadovoljava ograničenja samo jednog pravila (instanca se ne može nalaziti u više podgrupa odjednom). S druge strane, to znači da svaka instanca mora zadovoljiti samo jedno pravilo što rezultira generiranjem manjeg broja značajnih pravila čak i u višedimenzionalnim skupovima podataka. Mali broj značajnih pravila može uzrokovati pristranost u predikcijama. Fragmentacija nastaje zbog generiranje mnogih lokalno važnih, ali globalno nevažnih pravila u podskupovima dublje u stablu \cite{Li01}.
