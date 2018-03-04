@@ -58,5 +58,8 @@ GR(X) = info(S)/split info(X)
 \end{equation}
 Omjer dobiti \ref{eq:gr} izračava udio informacije generiran podjelom nastalom korištenjem testa X \cite{Quinlan02}.
 
+\subsubsection{Weka implementacija}
+C4.5 algoritam implementiran je pod nazivom J48 u programskom alatu \textit{Weka}. Korištene su standardne postavke algoritma. Na veličinu stabla najviše utječu dva parametra, minimalni broj objekata u podgrupi \textit{minNumObj} čijim povećavanjem smanjujemo stablo i faktor pouzanosti \textit{confidenceFactor} čijim povećavanjem povećavamo generirano stablo.
+
 \subsubsection{Nedostatci C4.5 algoritma}
 Postoje dva glavna razloga koja utječu na lošije performanse algoritma: ograničenje jednostruke pokrivenosti i fragmentacija. Ograničenje jednostruke pokrivenosti uzrokovano je heurističkom prirodom metode. Konstrukcija C4.5 stabala odvija se tako da se odabire atribut koji je najdiskriminatorniji u cijelom skupu podataka te se na osnovu njega podaci dijele u nepreklapajuće podskupove koji bi trebali imati što više uzoraka iste klase. Svaka podgrupa odgovara jednom pravilu i svaka instanca zadovoljava ograničenja samo jednog pravila (instanca se ne može nalaziti u više podgrupa odjednom). S druge strane, to znači da svaka instanca mora zadovoljiti samo jedno pravilo što rezultira generiranjem manjeg broja značajnih pravila čak i u višedimenzionalnim skupovima podataka. Mali broj značajnih pravila može uzrokovati pristranost u predikcijama. Fragmentacija nastaje zbog generiranje mnogih lokalno važnih, ali globalno nevažnih pravila u podskupovima dublje u stablu \cite{Li01}.
