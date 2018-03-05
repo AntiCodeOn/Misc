@@ -67,7 +67,7 @@ Stupac \textit{id} je jedinstveni identifikator vrste za svaki red u tablici i z
    \end{tabular}
    \label{tab:udjeli}
 \end{table}
-Razdiobe jedinstvenih oznaka nukleotida prikazane su u tablici \ref{tab:udjeli}. Vidimo da vrlo mali udio atributa ima oznaku D, N, S ili R (ukupno 15 redaka). Zbog toga možemo izbaciti ove retke bez značajnog smanjenja skupa podataka za dubinsku analizu. S druge strane, na ovaj način sprječavamo da algoritam da previše važnosti podacima koji spadaju u ovu marginalnu skupinu (eng. \textit{outliers}). 
+Razdiobe jedinstvenih oznaka nukleotida prikazane su u tablici \ref{tab:udjeli}. Vidimo da vrlo mali udio atributa ima oznaku D, N, S ili R (ukupno 15 redaka). Zbog toga možemo izbaciti ove retke bez značajnog smanjenja skupa podataka za dubinsku analizu. S druge strane, na ovaj način sprječavamo da algoritam da previše važnosti podacima koji spadaju u ovu marginalnu skupinu (engl. \textit{outliers}). 
 Jedna od instanci iz klase EI\footnote{HUMALPI1-DONOR} ima nukleotidni niz\textit{ 
 ACACAGGGCACCCCCTCANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 }. Čak 42 baze označene su s oznakom N. Ako bi svaki N zamijenili s jednom od četiri moguće baze dobili bismo 4\textsuperscript{42} kombinacija. Bez provjere u postojećim bazama podataka ne možemo znati koje su od tih kombinacija uistinu dijelovi donorskih sekcija u genomu.
@@ -111,7 +111,7 @@ Metoda \textit{test{\_}train{\_}split} iz paketa \textit{sklearn} ima argument \
 \end{center}
 
 \subsection{Odabir atributa}
-Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti sve dostupne atribute skupa podataka. U odabiru najboljih atributa za model primjenjuju se različite tehnike koje se u grubo mogu svrstati u tri kategorije. Metode \textbf{filtriranja} koriste najčešće različite statističke testove kako bi se odredila korelacija\footnote{termin korelacija ovdje koristimo u širem smislu, ne isključivo u statističkom kontekstu} između atributa i izlazne varijable (klase). Druga kategorija, metode \textbf{omotača}\footnote{eng. \textit{wrapper methods}} koriste podskup atributa nad kojim treniraju model. Na osnovu zaključaka iz ovog modela, dodaju se ili oduzimaju određeni atributi - problem odabira atributa svodi se na problem pretraživanja. \textbf{Ugradbene} metode\footnote{eng. \textit{embedded methods}} kombiniraju kvalitete filterskih i metoda omotavanja korištenjem algoritama koji imaju vlastite ugrađene metode selekcije atributa.
+Pri kreiranju modela za dubinsku analizu podataka obično nije nužno koristiti sve dostupne atribute skupa podataka. U odabiru najboljih atributa za model primjenjuju se različite tehnike koje se u grubo mogu svrstati u tri kategorije. Metode \textbf{filtriranja} koriste najčešće različite statističke testove kako bi se odredila korelacija\footnote{termin korelacija ovdje koristimo u širem smislu, ne isključivo u statističkom kontekstu} između atributa i izlazne varijable (klase). Druga kategorija, metode \textbf{omotača}\footnote{engl. \textit{wrapper methods}} koriste podskup atributa nad kojim treniraju model. Na osnovu zaključaka iz ovog modela, dodaju se ili oduzimaju određeni atributi - problem odabira atributa svodi se na problem pretraživanja. \textbf{Ugradbene} metode\footnote{engl. \textit{embedded methods}} kombiniraju kvalitete filterskih i metoda omotavanja korištenjem algoritama koji imaju vlastite ugrađene metode selekcije atributa.
 Budući da su svi podaci u skupu nominalni, te da imamo veliki broj atributa, moguće ih je prikazati samo indirektnom mjerom ili parcijalno (slika \ref{fig:class_dna_x}).
 \begin{center}
    \begin{figure}[ht!]
@@ -214,12 +214,12 @@ Osnovna procesna jedinica u neuronskoj mreži je neuron, nazvan tako jer je mode
 \begin{equation}
     z = f(\textbf{x};\textbf{w},b) = \textbf{x}^T\textbf{w} + b
 \end{equation}
-gdje su $w$ parametri neurona, a b pomak (eng. \textbf{bias}). 
+gdje su $w$ parametri neurona, a b pomak (engl. \textbf{bias}). 
 Nad rezultatom ove funkcije izračunava nelinearna transformacija, sigmoidna funkcija oblika
 \begin{equation}
     y = \sigma(z) = \frac{1}{1+e^{-z}}
 \end{equation}
-ili $tanh(z)$. U posljednje vrijeme, najčešće se koristi ReLU\footnote{eng. \textit{Rectified Linear Unit}} aktivacijska funkcija.
+ili $tanh(z)$. U posljednje vrijeme, najčešće se koristi ReLU\footnote{engl. \textit{Rectified Linear Unit}} aktivacijska funkcija.
 
 Rezultat nelinearne transformacije iz svih neurona jednog sloja prosljeđuje se neuronima u sljedećem sloju. Završni sloj na izlazima daje vektor vjerojatnosti $Y_K$ da određena instanca pripada klasi $k$ korištenjem tzv. \textit{softmax} funkcije
 \begin{equation}

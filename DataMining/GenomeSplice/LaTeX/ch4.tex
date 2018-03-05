@@ -19,8 +19,8 @@ slučajeva. C4.5 konstruira stablo na sljedeći način:
 \end{itemize}
 Ova definicija je poprilično općenita jer bi mogli odabrati mnogo različitih testova. C4.5 koristi dvije heuristike za rangiranje testova
 \begin{itemize}
-   \item \textit{Informacijska vrijednost IG\footnote{eng. \textit{Information Gain}}}  - minimizira ukupnu entropiju podskupova i
-   \item \textit{Omjer dobiti GR\footnote{eng. \textit{Gain Ratio}}} - dijeli IG sa informacijom iz ishoda testa.
+   \item \textit{Informacijska vrijednost IG\footnote{engl. \textit{Information Gain}}}  - minimizira ukupnu entropiju podskupova i
+   \item \textit{Omjer dobiti GR\footnote{engl. \textit{Gain Ratio}}} - dijeli IG sa informacijom iz ishoda testa.
 \end{itemize}
 
 Dozvoljeni su i numerički i nominalni atributi. Numberički atributi u pravilu koriste testove s pragovima, te ishodi
@@ -28,7 +28,7 @@ ovise o tome jesu li vrijednosti atributa veće ili manje (ili jednake) od praga
 u pravilu testovi imaju jednak broj ishoda kao i broj mogućih vrijednosti tog atributa, ali je moguće i grupiranje 
 vrijednosti kako bi se smanjio broj ishoda testa, a samim time i složenost konstruiranog stabla.
 
-Inicijalno konstruirano stablo je podložno pretreniranju (eng. \textit{overfitting}) zbog čega se koristi algoritam podrezivanja stabla. Podrezivanje se odvija od listova prema korijenu. Računa se pesimistična procjena učestalosti pogrešak korištenjem binomne razdiobe za slučaj kada je registrirano E događaja, koji ne pripadaju najčešćoj klasi, u N pokušaja, s korisnički definiranim intervalom pouzdanosti. Za podstablo se sumira procjena pogreške svih grana i uspoređuje sa greškom u slučaju da se cijelo podstablo zamjeni čvorom. Ukoliko potonja greška nije veća stablo se podrezuje. Također, moguće je zamjenjivanje podstabla samo jednom njegovom granom ukoliko to ne povećava pogreške\cite{Wu01}.
+Inicijalno konstruirano stablo je podložno pretreniranju (engl. \textit{overfitting}) zbog čega se koristi algoritam podrezivanja stabla. Podrezivanje se odvija od listova prema korijenu. Računa se pesimistična procjena učestalosti pogrešak korištenjem binomne razdiobe za slučaj kada je registrirano E događaja, koji ne pripadaju najčešćoj klasi, u N pokušaja, s korisnički definiranim intervalom pouzdanosti. Za podstablo se sumira procjena pogreške svih grana i uspoređuje sa greškom u slučaju da se cijelo podstablo zamjeni čvorom. Ukoliko potonja greška nije veća stablo se podrezuje. Također, moguće je zamjenjivanje podstabla samo jednom njegovom granom ukoliko to ne povećava pogreške\cite{Wu01}.
 
 \subsubsection{Informacijska vrijednost i omjer dobiti}
 Algoritam C4.5 koristi osnovne postulate informacijske teorije u procesu izgradnje stabla. Prema teoriji informacije, informacija sadržana u poruci ovisi o vjerojatnosti te poruke $p$ i može se mjeriti u bitovima kao negativan logaritam te vjerojatnosti \cite{Shannon01}. Pretpostavimo da postoji skup instanci $S$ veličine $|S|$ unutar kojeg svaka od instanca pripada točno jednoj od $J$ klasa gdje ukupan broj instanci klase $j$ u skupu $S$ označavamo sa $|C_{jS}|$. Ako nasumično izaberemo jednu instancu iz skupa vjerojatnost da ona pripada klasi $j\in{1,..,J}$ iznosi\begin{equation}
