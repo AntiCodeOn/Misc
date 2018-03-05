@@ -5,7 +5,7 @@ U radu su testirane performanse četiri modela (tablica \ref{tab:models}).
 
 \begin{table}[!ht]
     \centering
-    \caption[Popis testiranih modela]{Popis testiranih modela}
+    \caption[Popis testiranih modela]{\textbf{Popis testiranih modela.}}
     \label{tab:models}
     \begin{tabular}{|| p{2cm} | p{13cm} ||}
             \hline
@@ -50,22 +50,22 @@ Iz osnovnih mjera izvodim složenije mjere kvalitete modela
    \item ROC
 \end{itemize}
 
-Ovakve mjere su binarne, odnosno imaju smisla za dvije klase. Kada imamo više klasa iteriramo kroz sve klase. U svakoj iteraciji samo jedna klasa je pozitivna, a sve ostale klase grupiramo (engl. \textit{one-vs-all}). Nakon svih iteracija konačan je rezultat aritmetička sredina svih iteracija.
+Ovakve mjere su binarne, odnosno imaju smisla za dvije klase. Kada imamo više klasa poopćujemo mjere tako da iteriramo kroz sve klase. U svakoj iteraciji samo jedna klasa je pozitivna, a sve ostale klase grupiramo zajedno kao negativnu klasu (engl. \textit{one-vs-all}). Konačan je rezultat aritmetička sredina rezultata svih pojedinačnih iteracija.
 
 \begin{table}[!ht]
     \centering
-    \caption[Prikaz rezultata uspješnosti modela]{\textbf{Prikaz rezultata uspješnosti modela.} \textit{U posljednja dva stupca (desno) su broj čvorova koji su listovi te ukupan broj čvorova u stablu}}
+    \caption[Prikaz rezultata uspješnosti modela]{\textbf{Prikaz rezultata uspješnosti modela.} \textit{U posljednja dva stupca (desno) su broj čvorova koji su listovi te ukupan broj čvorova u stablu.}}
     \label{tab:mjera}
     \csvautotabular{"data/scores.csv"}
 \end{table}
 
-Tablica \ref{tab:mjera} prikazuje uspješnost algoritama korištenjem gore opisanih mjera. Vidimo da model razvijen s atributima izabranim pomoću višeslojnog perceptrona ima najbolje performanse. Razlika u točnosti od 1\% ne čini se velika na prvi pogled, ali u kontekstu količine podataka koje se obrađuju u bioinformatici postaje značajna. Tipičan genom ima nekoliko stotina milijuna do nekoliko milijardi baza. Za sekvencijalni algoritam koji bi testirao svaku poziciju u genomu korištenjem stabla odlučivanja, razlika u točnosti od 1\% značila bi u tom kontekstu milijun (odnosno nekoliko milijuna ako je veličina genoma u milijardama) više točnih klasifikacija.
-Uspoređujući veličinu stabala vidimo da je očekivano, najmanje stablo generirano na skupu koji ima najmanje atributa \textit{Chi2Top10}. Međutim, smanjenje je neznazno u odnosu na \textit{C4.5All} koji ima veličinu stabla kao i \textit{MP} model, a za njega nije bila potrebna nikakva predobrada, odnosno selekcija atributa. 
-Rezultati modela \textit{Chi2Top20} pokazuju da selekcija atributa ne mora nužno rezultirati poboljšanim performansama. Ovaj model ima najveće generirano stablo s jednakim postavkama algoritma. Slika \ref{fig:attributes} može objasniti nastale razlike. Model \textit{MP} i \textit{Chi2Top10} imaju veliko poklapanje (7 od 10) odabranih atributa. Međutim, \textit{MP} koristi samo jedan atribut po rangu Hi-kvadrat testa između desetog i dvadesetog mjesta. Dok je Hi-kvadrat test najviše težine dao atributima iz sredine niza višeslojni perceptron je prepoznao prediktivnu snagu i kod atributa bliže rubovima nukleotidnog niza, što je u ovom slučaju rezultiralo poboljšanjem točnosti od gotovo 1\%.
+Tablica \ref{tab:mjera} prikazuje uspješnost algoritama korištenjem gore opisanih mjera. Vidimo da model razvijen s atributima izabranim pomoću višeslojnog perceptrona ima najbolje performanse. Razlika u točnosti od 1\% ne čini se velika na prvi pogled, ali u kontekstu količine podataka koje se obrađuju u bioinformatici postaje značajna. Tipičan genom ima nekoliko stotina milijuna do nekoliko milijardi baza. Za sekvencijalni algoritam koji bi testirao svaku poziciju u genomu korištenjem stabla odlučivanja, razlika u točnosti od 1\% značila bi u tom kontekstu nekoliko stotina do nekoliko milijuna više točnih klasifikacija.
+Uspoređujući veličinu stabala vidimo da je, očekivano, najmanje stablo generirano na skupu koji ima najmanje atributa \textit{Chi2Top10}. Međutim, smanjenje je neznazno u odnosu na \textit{C4.5All} koji ima veličinu stabla kao i \textit{MP} model, a za njega nije bila potrebna nikakva predobrada, odnosno selekcija atributa. 
+Rezultati modela \textit{Chi2Top20} pokazuju da selekcija atributa ne mora nužno rezultirati poboljšanim performansama. Ovaj model ima najveće generirano stablo s jednakim postavkama treniranja. Slika \ref{fig:attributes} može objasniti nastale razlike. Model \textit{MP} i \textit{Chi2Top10} imaju veliko poklapanje (7 od 10) odabranih atributa. Međutim, \textit{MP} koristi samo jedan atribut po rangu Hi-kvadrat testa između desetog i dvadesetog mjesta. Dok je Hi-kvadrat test najviše težine dao atributima iz sredine niza višeslojni perceptron je prepoznao prediktivnu snagu i kod atributa bliže rubovima nukleotidnog niza, što je u ovom slučaju rezultiralo poboljšanjem točnosti od gotovo 1\%.
 \begin{figure}[!ht]
     \centering
     \includegraphics[height=12cm, width=16cm]{attributes}
-    \caption[Grafički prikaz odabira atributa]{\textbf{Grafički prikaz odabira atributa rangiranih Hi-kvadrat testom.}  \textit{Iznad narančaste linije nalazi se najboljih 10 atributa, a iznad smeđe najboljih 20 atributa po Hi-kvadrat (HK) testu. Crvenom su označeni atributi izabrani korištenjem višeslojnog perceptrona (VP).}}
+    \caption[Grafički prikaz odabira atributa]{\textbf{Grafički prikaz odabira atributa rangiranih Hi-kvadrat testom.}  \textit{Iznad narančaste linije nalazi se najboljih 10 atributa, a iznad smeđe najboljih 20 atributa po Hi-kvadrat testu. Crvenom su označeni atributi izabrani korištenjem višeslojnog perceptrona.}}
     \label{fig:attributes}
 \end{figure}
 \begin{figure}[!ht]

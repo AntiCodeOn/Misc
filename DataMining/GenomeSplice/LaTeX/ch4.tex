@@ -3,18 +3,18 @@
 
 Stabla odlučivanja vrlo su popularna metoda dubinske analize podataka zbog svoje jednostavnosti i brzine. Algoritam koristi “podijeli-pa-vladaj” paradigmu i najjednostavnije se može opisati u rekurzivnom obliku. Najprije se odabire atribut koji će biti korijen stabla. Za svaku moguću vrijednost koju taj atribut može imati izvodi se jedna grana. Na ovaj način se skup podataka dijeli u podskupove. Ako jedan od čvorova stabla dobivenih na ovaj način sadrži samo instance jedne klase, zaustavlja se rekurzivni postupak. Inače, nastavljamo dijeliti preostale podskupove prema novim atributima. Odabir atributa nije proizvoljan, želimo odabrati atribute na takav način da stablo bude što manje tako da naš algoritam radi brže. 
 
-Indukcijski zadatak provodi se nad skupom objekata koji su opisani kolekcijom atributa. Svaki atribut mjeri neko važno svojstvo objekta te u pravilu poprima veličinu iz diskretnog skupa vrijednosti. Objekti pripadaju jednoj od dvije ili više međusobno isključivih klasa. Iz skupa podataka za trening u kojem su klase objekata poznate izvode se klasifikacijska pravila. Ukoliko su atributi adekvatni (objekti s istim vrijednostima atributa pripadaju istoj klasi) uvijek je moguće konstruirati stablo odlučivanja koje će ispravno klasificirati sve objekte u trening skupu\cite{Witten01}. 
+Indukcijski zadatak provodi se nad skupom objekata koji su opisani kolekcijom atributa. Svaki atribut mjeri neko važno svojstvo objekta te u pravilu poprima veličinu iz diskretnog skupa vrijednosti. Objekti pripadaju jednoj od dvije ili više međusobno isključivih klasa. Iz skupa podataka za trening u kojem su klase objekata poznate izvode se klasifikacijska pravila. Ukoliko su atributi adekvatni (objekti s istim vrijednostima atributa pripadaju istoj klasi) uvijek je moguće konstruirati stablo odlučivanja koje će ispravno klasificirati sve objekte u trening skupu \cite{Witten01}. 
 Međutim, stablo odlučivanja koje ispravno klasificira samo trening skup nije korisno jer zapravo samo izražava podatke koje imamo u tablici (trening skupa) u obliku stabla. Kako bi se  konstruirano stablo moglo primjeniti i na buduće, dotad neviđene podatke (testni skup) stablo odlučivanja mora sadržavati smislene informacije o odnosima atributa objekta i klase tog objekta. 
 
-Računalni znanstvenik John Ross Quinlan dao je značajan doprinos razvoju algoritama za dubinsku analizu temeljenim na stablima odlučivanja\cite{Quinlan01},\cite{Quinlan02},\cite{Wu01}. Istraživanje je potaknuto potrebom da se unaprijede algoritmi sa sposobnošću pronalaska znanja u samim skupovima podataka bez korištenja domenskih eksperata. Prvi iz niza varijanti stabla odlučivanja koje je dizajnirao, ID3, je dizajniran za skupove podataka s velikim brojem objekata i velikim brojem atributa objekta poštujući ograničenje da konstruirano stablo odlučivanja bude jednostavno (kako bi se ubrzao proces generiranja takvog stabla uz minimalne računalne resurse). Posljedica ovakvih ograničenja u dizajnu je da ID3 ne garantira globalno optimalno stablo odlučivanja\cite{Quinlan02}.
+Računalni znanstvenik John Ross Quinlan dao je značajan doprinos razvoju algoritama za dubinsku analizu temeljenim na stablima odlučivanja \cite{Quinlan01}, \cite{Quinlan02}, \cite{Wu01}. Istraživanje je potaknuto potrebom da se unaprijede algoritmi sa sposobnošću pronalaska znanja u samim skupovima podataka bez korištenja domenskih eksperata. Prvi iz niza varijanti stabla odlučivanja koje je dizajnirao, ID3, je dizajniran za skupove podataka s velikim brojem objekata i velikim brojem atributa objekta poštujući ograničenje da konstruirano stablo odlučivanja bude jednostavno (kako bi se ubrzao proces generiranja takvog stabla uz minimalne računalne resurse). Posljedica ovakvih ograničenja u dizajnu je da ID3 ne garantira globalno optimalno stablo odlučivanja \cite{Quinlan02}.
 
 \subsection{C4.5 algoritam}
 
-C4.5 je nasljednik algoritma ID3. Kao i prethodni, C4.5 generira klasifikator u obliku stabla odlučivanja, ali može 
+C4.5 je nasljednik algoritma ID3\footnote{C4.5 također ima nasljednika, komercijalni algoritam naziva C5.0}. Kao i prethodni, C4.5 generira klasifikator u obliku stabla odlučivanja, ali može 
 kreirati i klasifikator u razumljivijem formatu, u obliku skupa pravila. Pretpostavimo da postoji skup \textit{S} 
 slučajeva. C4.5 konstruira stablo na sljedeći način:
 \begin{itemize}
-   \item Ako svi slučajevi u \textit{S} pripadaju istoj klasi ili je skup mal, stablo je samo čvor s oznakom najčešće klase u skupu \textit{S}
+   \item Ako svi slučajevi u \textit{S} pripadaju istoj klasi ili veličina skupa nije značajna, stablo je samo čvor s oznakom najčešće klase u skupu \textit{S}
    \item Inače, odabrati test na jednom atributu s dva ili više ishoda i postaviti ovaj test u korijen stabla s granom za svaki ishod. Podijeliti skup \textit{S} na podskupove \textit{S1}, \textit{S2}, ... ovisno o ishodu svakog test te nastaviti s procedurom rekurzivno za svaki podskup.
 \end{itemize}
 Ova definicija je poprilično općenita jer bi mogli odabrati mnogo različitih testova. C4.5 koristi dvije heuristike za rangiranje testova
@@ -47,11 +47,11 @@ Konačno, informacijsku dobit računamo kao
 \begin{equation}
 gain(X) = info(S)-info_{X}(S)
 \end{equation}
-U algoritmu ID3 favorizirani su testovi s puno ishoda. Na primjer, u našem testnom skupu atribut \textit{id} je jedinstven za svaku instancu. Korištenjem takvog atributa dobili bismo veliki broj podskupova od kojih svakih sadrži jedan slučaj sa. Budući da bi ovi podskupovi imali samo jednu klasu, $info_{X}S$ bi uvijek bio 0, odnosno iformacijska vrijednost od korištenja ovakvog atributa bi bila maksimalna. Međutim, ovakvo stablo ne bi moglo klasificirati ni jednu novu instancu (jer bi ona imala $id$ koji se nije nalazio u skupu za trening). To je zapravo razlog zašto smo izbacili ovaj atribut u procesu predobrade. C4.5 je popravio ovaj nedostatak korištenjem normalizacije. Izraz
+U algoritmu ID3 favorizirani su testovi s puno ishoda. Na primjer, u našem testnom skupu atribut \textit{id} je jedinstven za svaku instancu. Korištenjem takvog atributa dobili bismo veliki broj podskupova od kojih svaki sadrži samo jedan slučaj. Budući da bi ovi podskupovi imali samo jednu klasu, $info_{X}S$ bi uvijek bio 0, odnosno iformacijska vrijednost od korištenja ovakvog atributa bi bila maksimalna. Međutim, ovakvo stablo ne bi moglo klasificirati ni jednu novu instancu (jer bi ona imala $id$ koji se nije nalazio u skupu za trening). To je zapravo razlog zašto smo izbacili ovaj atribut u procesu predobrade. C4.5 je popravio ovaj nedostatak korištenjem normalizacije. Izraz
 \begin{equation}
 split info(X) = -\mathlarger{\sum}_{i}^{n}\frac{|S_{i}|}{|S|}\cdot\log_{2}\frac{|S_{i}|}{|S|}
 \end{equation}
-predstavlja potencijalnu informaciju dobivenu dijeljenjem skupa $S$ u $n$ podskupova. Ova veličina povezana je s informacijskim sadržajem ishoda testa u usporedbi sa informacijom klasifikacije kao što je u slučaju informacijske dobiti.
+predstavlja potencijalnu informaciju dobivenu dijeljenjem skupa $S$ u $n$ podskupova. Ova veličina povezana je s informacijskim sadržajem ishoda testa za razliku od informacije klasifikacije u slučaju informacijske dobiti.
 \begin{equation}
 \label{eq:gr}
 GR(X) = info(S)/split info(X)

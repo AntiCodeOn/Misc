@@ -1,20 +1,6 @@
 \section{Opis razvojnog okruženja za dubinsku analizu}
 \label{ch:ch2}
 
-\subsection{Programski alati za dubinsku analizu}
-Za obradu i preprocesiranje skupa podataka korišten je programski jezik \textit{Python} (verzija 3.5)
-u kombinaciji sa bibliotekama \textit{pandas}, \textit{sklearn} te \textit{matplotlib} i \textit{seaborn} za grafički prikaz rezultata.
-\textit{pandas} je biblioteka otvorenog koda koja implementira brze i fleksibilne strukture podataka kako bi se korisniku omogućilo što lakše i intuitivnije upravljanje podacima\cite{McKinney01}. Ova biblioteka omogućuje korištenje različitih tipova podataka
-\begin{itemize}
-   \item Tabularni podaci sa stupcima heterogenog tipa (kao u SQL ili Excel tablicama)
-   \item Uređeni i neuređeni skupovi vremenskih podataka
-   \item Proizvoljni podaci u matričnom obliku s oznakama redova i stupaca
-   \item Bilo kakav drugi oblik statističkih skupova podataka koji ne mora nužno biti označen
-\end{itemize}
-
-\textit{scikit-learn} je biblioteka otvorenog koda i sadrži skup algoritama za strojno učenje i dubinsku analizu podataka\cite{Pedregosa01}. Obuhvaća širok spektar funkcionalnosti, od preprocesiranja podataka preko učenja različitih modela do evaluacije dobivenih rezultata.
-Skripta za obradu podataka napisana je u razvojnom okruženju \textit{Jupyter Notebook} i dostupna je u \textit{GitHub}\footnote{\url{https://github.com/AntiCodeOn/Misc/tree/main/DataMining/GenomeSplice}} repozitoriju. Dubinska analiza provedena je korištenjem programskog alata Weka\cite{Weka01}.
-
 \subsection{Skup podataka za dubinsku analizu}
 
 Skup podataka nad kojim je napravljena dubinska analiza potječe iz banke genoma
@@ -29,7 +15,7 @@ Prvi atribut u tablici je klasa. Podaci pripadaju jednoj od tri kategorije:
 \end{itemize}
 Drugi atribut je tekstualni identifikator instance.
 Preostali atributi su zapravo sekvenca šezdeset slova koje označavaju nukleotide
-ciljanog mjesta na genomu. U ovom radu se na pozicije pojedinačnih nukleotidnih baza (slova) referiramo pozitivnim indeksima {1, 2, ..., 60}.
+sekvence u DNK molekuli za koju želimo utvrditi kojoj klasi pripada. U ovom radu se na pozicije pojedinačnih nukleotidnih baza (slova) referiramo pozitivnim indeksima {1, 2, ..., 60}.
 Nukleotidi u skupu podataka su označeni na način prikazan Tablicom \ref{tab:oznake}.
 
 \begin{table}[!ht]
@@ -54,3 +40,18 @@ Nukleotidi u skupu podataka su označeni na način prikazan Tablicom \ref{tab:oz
    \end{tabular}
    \label{tab:oznake}
 \end{table}
+
+\subsection{Programski alati za dubinsku analizu}
+Za obradu i preprocesiranje skupa podataka korišten je programski jezik \textit{Python} (verzija 3.5)
+u kombinaciji sa bibliotekama \textit{pandas}, \textit{sklearn} te \textit{matplotlib} i \textit{seaborn} za grafički prikaz rezultata.
+\textit{pandas} je biblioteka otvorenog koda koja implementira brze i fleksibilne strukture podataka kako bi se korisniku omogućilo što lakše i intuitivnije upravljanje podacima\cite{McKinney01}. Ova biblioteka omogućuje korištenje različitih tipova podataka
+\begin{itemize}
+   \item Tabularni podaci sa stupcima heterogenog tipa (kao u SQL ili Excel tablicama)
+   \item Uređeni i neuređeni skupovi vremenskih podataka
+   \item Proizvoljni podaci u matričnom obliku s oznakama redova i stupaca
+   \item Bilo kakav drugi oblik statističkih skupova podataka koji ne mora nužno biti označen
+\end{itemize}
+
+\textit{scikit-learn} je biblioteka otvorenog koda i sadrži skup algoritama za strojno učenje i dubinsku analizu podataka\cite{Pedregosa01}. Obuhvaća širok spektar funkcionalnosti, od preprocesiranja podataka preko učenja različitih modela do evaluacije dobivenih rezultata.
+Skripta za obradu podataka napisana je u razvojnom okruženju \textit{Jupyter Notebook} i dostupna je u \textit{GitHub}\footnote{\url{https://github.com/AntiCodeOn/Misc/tree/main/DataMining/GenomeSplice}} repozitoriju. Dubinska analiza provedena je korištenjem programskog alata Weka\cite{Weka01}.
+
